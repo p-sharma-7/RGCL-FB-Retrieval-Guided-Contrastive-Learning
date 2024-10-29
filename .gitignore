@@ -1,0 +1,14 @@
+data
+*.sh
+*.pyc
+*.ipynb
+wandb
+*.pt 
+*.pth
+DPR
+logging
+.vscode/
+test
+scripts
+artifacts
+*.out
