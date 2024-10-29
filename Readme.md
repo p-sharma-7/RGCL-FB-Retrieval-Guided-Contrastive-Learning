@@ -1,6 +1,10 @@
 # RGCL: Improving Hateful Meme Detection through Retrieval-Guided Contrastive Learning
 This is the official repo for the paper: Improving Hateful Meme Detection through Retrieval-Guided Contrastive Learning. 
 
+The link to the paper is [here](https://aclanthology.org/2024.acl-long.291.pdf).
+The link to the project page is [here](https://rgclmm.github.io/).
+
+
 ## Updates
 - [29/10/2024] 🔥Release of the code base.
 - [10/08/2024] 🔥Our paper appears at ACL2024 Main.
