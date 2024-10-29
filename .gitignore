@@ -9,6 +9,5 @@ DPR
 logging
 .vscode/
 test
-scripts
 artifacts
 *.out
