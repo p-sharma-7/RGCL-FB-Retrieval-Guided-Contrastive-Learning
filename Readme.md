@@ -67,6 +67,8 @@ Training and Evalution
 bash scripts\experiments.sh
 ```
 
+## Common Issues
+If you experience stuck in training, it might be due to the `faiss` installation. 
 
 ## Citation
 If our work helped your research, please kindly cite our paper
