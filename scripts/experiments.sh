@@ -7,4 +7,4 @@ python ./src/run_rac.py --batch_size 64 \
     --final_eval False --seed 0 --group_name "RAC" \
     --metric "cos" --loss "triplet" --batch_norm False \
     --hybrid_loss True \
-    --majority_voting "arithmetic" --no_pseudo_gold_positives 1 --Faiss_GPU True 
+    --majority_voting "arithmetic" --no_pseudo_gold_positives 1 --Faiss_GPU True --force True

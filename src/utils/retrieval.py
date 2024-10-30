@@ -477,21 +477,7 @@ def dense_retrieve_hard_negatives_pseudo_positive(
             if j == largest_retrieval and k == args.no_pseudo_gold_positives:
                 break
         # print("Searched top {} to get {} hard negatives".format(iter+1, j))
-        if args.hard_negatives_trick:
-            if j < largest_retrieval:
-                # print("Not enough hard negatives found, using the negative of original features")
-                for k in range(j, largest_retrieval):
-
-                    if args.Faiss_GPU:
-                        # GPU implementation
-                        hard_negative_features[i][k] = - query_feats[i]
-
-                    else:
-                        # CPU implementation with numpy
-                        hard_negative_features[i][k] = - \
-                            torch.from_numpy(query_feats[i]).float().to("cuda")
-
-                    hard_negative_scores[i][k] = -1.0
+        
     if args.no_pseudo_gold_positives == 0:
         return hard_negative_features, hard_negative_scores, train_feats, train_labels
     elif args.no_pseudo_gold_positives != 0:
