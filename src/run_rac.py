@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch
-from model.evaluate_rac import retrieve_evaluate_RAC_, final_evaluation, final_probe
+from model.evaluate_rac import retrieve_evaluate_RAC_, final_evaluation
 from model.classifier import classifier_hateClipper
 from model.loss import compute_loss
 import argparse
@@ -12,7 +12,7 @@ from utils.metrics import eval_and_save_epoch_end, compute_metrics_retrieval
 from tqdm import tqdm
 import numpy as np
 import os
-from utils.visualise_embed_space import plot_embedding_pca, plot_embedding_tsne
+
 import json
 
 
@@ -139,12 +139,6 @@ def parse_args():
 
     arg_parser.add_argument("--no_hard_negatives", type=int, default=1)
     arg_parser.add_argument("--no_hard_positives", type=int, default=0)
-    arg_parser.add_argument(
-        "--hard_negatives_trick",
-        type=lambda x: (str(x).lower() == "true"),
-        default=False,
-        help="Using hard negative trick: for none retrieved samples, set the loss to lowest/zero",
-    )
 
     arg_parser.add_argument(
         "--hard_negatives_multiple",
@@ -190,16 +184,6 @@ def parse_args():
         type=lambda x: (str(x).lower() == "true"),
         help="Using retrieval evaluation",
     )
-
-    # <----------------- Final Evaluation Configs ----------------->
-
-    # <----------------- Final Probe Configs ----------------->
-    # Whether to fit the final probe or not
-    arg_parser.add_argument("--final_probe", type=lambda x: (str(x).lower() == "true"),
-                            default=False, help="Fitting the final linearprobe or not")
-
-    arg_parser.add_argument("--probe_lr", type=float, default=5e-4)
-    arg_parser.add_argument("--probe_epochs", type=int, default=5)
 
     # <----------------- Logging Configs ----------------->
     arg_parser.add_argument("--log_interval", type=int, default=10)
@@ -335,18 +319,7 @@ def model_pass(
                         in_batch_loss) != int else in_batch_loss
                     pseudo_gold_loss_val = torch.mean(pseudo_gold_loss).item(
                     ) if args.no_pseudo_gold_positives != 0 else 0
-                wandb.log(
-                    {
-                        "Train/loss": total_loss.item(),
-                        "Train/in_batch_loss": in_batch_loss_val,
-                        # placeholder for hard negative mining loss
-                        "Train/pseudo_gold_loss": pseudo_gold_loss_val,
-                        "Train/hard_negative_loss": hard_loss_val,
-                        "Train/cross_entropy": cross_entropy,
-                        "Train/Lr": optimizer.param_groups[-1]['lr'],
-                    },
-                    global_step,
-                )
+
         if args.eval_retrieval:
             logging_dict, evaluate_labels = retrieve_evaluate_RAC_(
                 train_dl,
@@ -380,41 +353,15 @@ def model_pass(
         else:
             acc, roc, pre, recall, f1 = 0, 0, 0, 0, 0
             acc_test, roc_test, pre_test, recall_test, f1_test = 0, 0, 0, 0, 0
-
-        wandb.log(
-            {
-                "Train_Epoch/in_batch_loss": in_batch_loss_val,
-                "Train_Epoch/hard_negative_loss": hard_loss_val,
-                "Train_Epoch/pseudo_gold_loss": pseudo_gold_loss_val,
-                "Train_Epoch/cross_entropy": cross_entropy,
-
-                "Val_Retrieval/accuracy": acc,
-                "Val_Retrieval/roc": roc,
-                "Val_Retrieval/precision": pre,
-                "Val_Retrieval/recall": recall,
-                "Val_Retrieval/f1": f1,
-
-            },
-            global_step,
-        )
+            
 
         if args.hybrid_loss:
             # logging at the end of each epoch
             (acc_, roc_, pre_, recall_, f1_, eval_loss_), _ = eval_and_save_epoch_end(
                 args, artifacts, train_dl, evaluate_dl, test_seen_dl, model, epoch)
 
-            wandb.log(
-                {
-                    "Val_Probe/acc": acc_,
-                    "Val_Probe/roc": roc_,
-                    "Val_Probe/precision": pre_,
-                    "Val_Probe/recall": recall_,
-                    "Val_Probe/f1": f1_,
-                    "Val_Probe/loss": eval_loss_,
-                },
-                global_step,
-            )
 
+            
         # Print out the summary of the epoch
         print(
             "Val_Retrieval Epoch  {} acc: {:.4f} roc: {:.4f} \
@@ -487,8 +434,8 @@ def main(args):
     elif args.loss == "contrastive":
         loss_str += "_contrastive"
 
-    hard_negative_name = "_hard_negative_{}{}".format(
-        args.no_hard_negatives, "hard_negatives_trick" if args.hard_negatives_trick else "") if args.hard_negatives_loss else ""
+    hard_negative_name = "_hard_negative_{}".format(
+        args.no_hard_negatives)
     
     if args.no_pseudo_gold_positives!=0 and args.no_hard_positives !=0:
         positive_name = "_PseudoGold_positive_{}_hard_positive_{}".format(
@@ -506,7 +453,7 @@ def main(args):
 
     # we use the group name from args
     group_name = args.group_name
-    exp_name = "RAC_lr{}_Bz{}_Ep{}_{}_drop{}_topK{}_{}{}_seed{}{}{}{}{}".format(
+    exp_name = "RAC_lr{}_Bz{}_Ep{}_{}_drop{}_topK{}_{}{}_seed{}{}{}{}".format(
         args.lr,
         args.batch_size,
         args.epochs,
@@ -516,7 +463,6 @@ def main(args):
         positive_name,
         hard_negative_name,
         args.seed,
-        "_final_probe" if args.final_probe else "",
         "_hybrid_loss" if args.hybrid_loss else "",
         args.exp_comment,
         "_{}".format(args.sparse_dictionary) if args.sparse_dictionary is not None else "",
@@ -533,41 +479,8 @@ def main(args):
             # Abort avoid overwriting
             raise Exception("Output path already exists, aborting...")
 
-    run = wandb.init(
-        entity="jingbiao",
-        project="MMHS-Retrieval",
-        name=exp_name,
-        config={
-            "dataset": args.dataset,
-            "learning_rate": args.lr,
-            "lr_scheduler": args.lr_scheduler,
-            "weight_decay": args.weight_decay,
-            "Dropout": args.dropout,
-            "Using Batch Normalization": args.batch_norm,
-            "Gradient clipping": args.grad_clip,
-            "batch_size": args.batch_size,
-            "epochs": args.epochs,
-            "fusion_mode": args.fusion_mode,
-            "Similarity minimum threshold": args.similarity_threshold,
-            "Maximum top-K retrieved for Classification": args.topk,
-            "Model": args.model,
-            "Loss": loss_str,
-            "Hard negative loss": args.hard_negatives_loss,
-            "Hard negative samples to retrieve": args.no_hard_negatives,
-            "Pseudo gold positives": args.no_pseudo_gold_positives,
-            "Experiment Comment": args.exp_comment,
-            "Majority_voting": args.majority_voting,
-            "Sparse dictionary": args.sparse_dictionary,
-            "Use in batch samples": args.in_batch_loss,
-        },
-        group=group_name,
-        tags=["RAC", "Retrieval", "FB", args.fusion_mode, args.model, loss_str],
-    )
+    
     print(args)
-    artifact = run.use_artifact(
-        "Facebook_Hateful_Memes:latest", type="dataset")
-    # artifact.download("./data/artifacts/")
-    # directory = "./data/artifacts/Facebook_Hateful_Memes_Dataset:v0"
 
     # <----------------- Load the data ----------------->
     if args.dataset == "FB":
@@ -628,8 +541,7 @@ def main(args):
     model.to(args.device)
     print(model)
     # evaluate_split(train, dev, "dev")
-    wandb.watch(model, log_freq=args.log_interval,
-                log="all", log_graph=True)
+
     # <----------------- Train the model ----------------->
     model, best_epoch_path = model_pass(
         train_dl,
@@ -639,39 +551,10 @@ def main(args):
         epochs=args.epochs,
         log_interval=args.log_interval,
         args=args,
-        artifacts=artifact,
+        artifacts=None,
         train_set=train_set,
         sparse_dict=sparse_dict
     )
-    # <----------------- Final evaluation ----------------->
-    if args.final_eval:
-        final_evaluation(
-            train_dl,
-            dev_dl,
-            model,
-            args,
-            artifact,
-            test_seen_dl=test_seen_dl,
-        )
-    if args.final_probe:
-        # Also evaluate on the best epoch
-        model.load_state_dict(torch.load(best_epoch_path))
-        final_probe(
-            train_dl,
-            dev_dl,
-            test_seen_dl,
-            model,
-            args,
-            artifact,
-        )
-    # <----------------- Visualise the embeddings ----------------->
-    if args.visualise_embed:
-        plot_embedding_pca(data_path=args.output_path,
-                           epoch=args.epochs, name=exp_name, log2wandb=True)
-        plot_embedding_tsne(data_path=args.output_path,
-                            epoch=args.epochs, name=exp_name, log2wandb=True)
-    run.finish()
-
 
 if __name__ == "__main__":
     args = parse_args()
