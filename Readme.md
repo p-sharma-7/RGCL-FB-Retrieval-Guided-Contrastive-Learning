@@ -64,7 +64,7 @@ python3 src/utils/generate_ALIGN_embedding_HF.py --dataset "HarMeme"
 
 #### Generate Sparse Retrieval Index
 ##### Generate VinVL BoundingBox Prediction (Optional)
-ToDo
+ToDo. We will shortly upload these tsv files.
 
 
 Training and Evalution 
