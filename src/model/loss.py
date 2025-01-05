@@ -314,7 +314,12 @@ def compute_loss(batch,
         # For simplicity, we only check if the first dimension is zero in the feature embedding
         # The mask is batch_size x no_hard_negatives, 1 if embedding non zero, 0 if embedding zero,
         # Thus we can multiply the mask with the loss.
-        zeroLoss_mask = hard_negative_features[:, :, 0] != 0
+        #zeroLoss_mask = hard_negative_features[:, :, 0] != 0
+
+        # 2024.12.07 update, the above method is not correct, since the first dimension can be zero for some samples
+        # Instead, we will sum the sum of the value of the embeddings
+        # If the sum is zero, then we will set the mask to zero
+        zeroLoss_mask = torch.sum(hard_negative_features, dim=2) != 0
 
         # Compute Hard negative loss, at the third dimension feature dimension(dim=2)
 
