@@ -63,8 +63,8 @@ python3 src/utils/generate_ALIGN_embedding_HF.py --dataset "HarMeme"
 ```
 
 #### Generate Sparse Retrieval Index
-##### Generate VinVL BoundingBox Prediction (Optional)
-ToDo. We will shortly upload these tsv files.
+##### Generate VinVL Bounding Box Prediction (Optional)
+We obtained the object detection bounding box with VinVL. To simplify your process to reproduce the results, we release the pre-extracted bbox prediction for the HatefulMemes dataset: [https://huggingface.co/datasets/Jingbiao/rgcl-sparse-retrieval/tree/main](https://huggingface.co/datasets/Jingbiao/rgcl-sparse-retrieval/tree/main)  
 
 
 Training and Evalution 
