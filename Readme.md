@@ -14,7 +14,7 @@ This is the official repo for the paper:
 
 
 ## Updates
-- [18/02/2025] 🔥🔥🔥Our new work LMM-RGCL has been released, we further extend RGCL for large multimodal models. Check out here: [https://arxiv.org/abs/2502.13061](https://arxiv.org/abs/2502.13061). We will shortly release checkpoints and code for LMM-RGCL.
+- [18/02/2025] 🔥🔥🔥Our new work, LMM-RGCL, has been released. We further extend RGCL for large multimodal models. Check it out here: [https://arxiv.org/abs/2502.13061](https://arxiv.org/abs/2502.13061). We will shortly release checkpoints and code for LMM-RGCL.
 - [29/10/2024] 🔥🔥Initial Release of the code base.
 - [10/08/2024] 🔥Our paper appears at ACL2024 Main.
 
