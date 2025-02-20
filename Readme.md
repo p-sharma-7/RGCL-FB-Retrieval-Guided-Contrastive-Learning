@@ -1,5 +1,7 @@
 # RGCL: Improving Hateful Meme Detection through Retrieval-Guided Contrastive Learning
-This is the official repo for the paper: Improving Hateful Meme Detection through Retrieval-Guided Contrastive Learning and Improved Fine-Tuning of Large Multimodal Models for Hateful Meme Detection.
+This is the official repo for the paper: 
+- Improving Hateful Meme Detection through Retrieval-Guided Contrastive Learning (RGCL)
+- Improved Fine-Tuning of Large Multimodal Models for Hateful Meme Detection (LMM-RGCL)
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improving-hateful-memes-detection-via/meme-classification-on-multioff)](https://paperswithcode.com/sota/meme-classification-on-multioff?p=improving-hateful-memes-detection-via)
 
