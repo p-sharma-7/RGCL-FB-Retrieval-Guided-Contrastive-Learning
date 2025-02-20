@@ -3,15 +3,15 @@ This is the official repo for the paper: Improving Hateful Meme Detection throug
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improving-hateful-memes-detection-via/meme-classification-on-multioff)](https://paperswithcode.com/sota/meme-classification-on-multioff?p=improving-hateful-memes-detection-via)
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improving-hateful-memes-detection-via/meme-classification-on-hateful-memes)](https://paperswithcode.com/sota/meme-classification-on-hateful-memes?p=improving-hateful-memes-detection-via)	
-
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improving-hateful-memes-detection-via/hateful-meme-classification-on-harmeme)](https://paperswithcode.com/sota/hateful-meme-classification-on-harmeme?p=improving-hateful-memes-detection-via)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improved-fine-tuning-of-large-multimodal/meme-classification-on-hateful-memes)](https://paperswithcode.com/sota/meme-classification-on-hateful-memes?p=improved-fine-tuning-of-large-multimodal)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improved-fine-tuning-of-large-multimodal/hateful-meme-classification-on-harmeme)](https://paperswithcode.com/sota/hateful-meme-classification-on-harmeme?p=improved-fine-tuning-of-large-multimodal)
 
 - The link to the paper is [here](https://aclanthology.org/2024.acl-long.291.pdf).
 - The link to the project page is [here](https://rgclmm.github.io/).
 
 
 ## Updates
+- [18/02/2025] 🔥🔥🔥Our new work LMM-RGCL has been released, we further extend RGCL for large multimodal models. Check out here: [https://arxiv.org/abs/2502.13061](https://arxiv.org/abs/2502.13061). We will shortly release checkpoints and code for LMM-RGCL.
 - [29/10/2024] 🔥🔥Initial Release of the code base.
 - [10/08/2024] 🔥Our paper appears at ACL2024 Main.
 
@@ -98,4 +98,16 @@ If our work helped your research, please kindly cite our paper
     doi = "10.18653/v1/2024.acl-long.291",
     pages = "5333--5347"
 }
+ @article{LMMRGCL2025Mei,
+    title={Improved Fine-Tuning of Large Multimodal Models for Hateful Meme Detection},
+    url={http://arxiv.org/abs/2502.13061},
+    DOI={10.48550/arXiv.2502.13061},
+    note={arXiv:2502.13061 [cs]},
+    number={arXiv:2502.13061},
+    publisher={arXiv},
+    author={Mei, Jingbiao and Chen, Jinghong and Yang, Guangyu and Lin, Weizhe and Byrne, Bill},
+    year={2025},
+    month=feb }
+
+
 ```
