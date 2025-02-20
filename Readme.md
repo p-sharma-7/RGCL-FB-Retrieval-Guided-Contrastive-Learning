@@ -101,7 +101,8 @@ If our work helped your research, please kindly cite our paper
     doi = "10.18653/v1/2024.acl-long.291",
     pages = "5333--5347"
 }
- @article{LMMRGCL2025Mei,
+
+@article{LMMRGCL2025Mei,
     title={Improved Fine-Tuning of Large Multimodal Models for Hateful Meme Detection},
     url={http://arxiv.org/abs/2502.13061},
     DOI={10.48550/arXiv.2502.13061},
