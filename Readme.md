@@ -51,10 +51,10 @@ pip install -r requirements.txt
 Dataset Preparation 
 --------------------
 #### Image data
-Dump image into `./data/image/dataset_name/All` folder.
+Copy image into `./data/image/dataset_name/All` folder.
 For example: `./data/image/FB/All/12345.png`, `./data/image/HarMeme/All`, `./data/image/Propaganda/All`, etc..
 #### Annotation data
-Dump `jsonl` annotation file into `./data/gt/dataset_name` folder.
+Copy `jsonl` annotation file into `./data/gt/dataset_name` folder.
 
 #### Generate CLIP Embedding
 We generate CLIP embedding prior to training to avoid repeated generation during training.
