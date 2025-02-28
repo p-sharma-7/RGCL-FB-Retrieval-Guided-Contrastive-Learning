@@ -25,6 +25,8 @@ This is the official repo for the paper:
 - [29/10/2024] 🔥🔥Initial Release of the code base.
 - [10/08/2024] 🔥Our paper appears at ACL2024 Main.
 
+
+# RGCL-CLIP
 Useage
 --------------------
 ## Create Env
@@ -86,7 +88,12 @@ bash scripts\experiments.sh
 ## Common Issues
 If you experience stuck in training, it might be due to the `faiss` installation. 
 
-## Citation
+
+
+
+# (WIP) LMM-RGCL 
+
+# Citation
 If our work helped your research, please kindly cite our paper
 ```
 @inproceedings{RGCL2024Mei,
