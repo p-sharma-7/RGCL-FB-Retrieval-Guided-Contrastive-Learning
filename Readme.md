@@ -96,7 +96,22 @@ If you experience being stuck in training, it might be due to the `faiss` instal
 
 
 # (WIP) LMM-RGCL 
-We have now released the code for the stage 1 training of the LMM-RGCL. The released version is based on a newer [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) version than we used in the paper to support Qwen2.5-vl training. We will shortly release the checkpoints. For data, we have uploaded the original datasets and data format after conversion for LLaMA-Factory here: [https://huggingface.co/datasets/Jingbiao/LMM_RGCL](https://huggingface.co/datasets/Jingbiao/LMM_RGCL). 
+We have now released the code for the stage 1 training of the LMM-RGCL. The released version is based on a newer [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) version than we used in the paper to support Qwen2.5-vl training. We will shortly release the checkpoints. 
+
+For data, we have uploaded the original datasets and data format after conversion for LLaMA-Factory here: [https://huggingface.co/datasets/Jingbiao/LMM_RGCL](https://huggingface.co/datasets/Jingbiao/LMM_RGCL). 
+
+## Setup Environment 
+```
+cd LLAMA-FACTORY
+conda create -n llamafact python=3.10
+conda activate llamafact
+pip install -e ".[torch,metrics,deepspeed,liger-kernel,bitsandbytes,qwen]"
+pip install torchmetrics wandb easydict
+pip install qwen_vl_utils torchvision
+# Install FAISS
+conda install -c pytorch -c nvidia faiss-gpu=1.7.4 mkl=2021 blas=1.0=mkl
+```
+
 
 # Citation
 If our work helped your research, please kindly cite our paper
