@@ -57,7 +57,7 @@ pip install -r requirements.txt
 Dataset Preparation 
 --------------------
 #### Image data
-Copy image into `./data/image/dataset_name/All` folder.
+Copy images into `./data/image/dataset_name/All` folder.
 For example: `./data/image/FB/All/12345.png`, `./data/image/HarMeme/All`, `./data/image/Propaganda/All`, etc..
 #### Annotation data
 Copy `jsonl` annotation file into `./data/gt/dataset_name` folder.
@@ -90,13 +90,13 @@ bash scripts\experiments.sh
 ```
 
 ## Common Issues
-If you experience stuck in training, it might be due to the `faiss` installation. 
+If you experience being stuck in training, it might be due to the `faiss` installation. 
 
 
 
 
 # (WIP) LMM-RGCL 
-We have now released the code for the stage 1 training of the LMM-RGCL. The released version is based on a newer [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) version than we used in the paper to support Qwen2.5-vl training. We will shortly release the checkpoints and data. 
+We have now released the code for the stage 1 training of the LMM-RGCL. The released version is based on a newer [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) version than we used in the paper to support Qwen2.5-vl training. We will shortly release the checkpoints. For data, we have uploaded the original datasets and data format after conversion for LLaMA-Factory here: [https://huggingface.co/datasets/Jingbiao/LMM_RGCL](https://huggingface.co/datasets/Jingbiao/LMM_RGCL). 
 
 # Citation
 If our work helped your research, please kindly cite our paper
