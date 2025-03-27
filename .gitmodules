@@ -1,0 +1,3 @@
+[submodule "LLAMA-FACTORY"]
+	path = LLAMA-FACTORY
+	url = https://github.com/JingbiaoMei/LLaMA-Factory-LMM-RGCL.git
