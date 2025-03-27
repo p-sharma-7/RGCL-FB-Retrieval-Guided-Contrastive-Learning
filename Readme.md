@@ -24,6 +24,7 @@ This is the official repo for the paper:
 
 
 ## Updates
+- [27/03/2025] 🔥🔥🔥🔥LMM-RGCL Stage 1 code has been released. Check out the code from the submodule in [LLAMA-FACTORY@a88f610](https://github.com/JingbiaoMei/LLaMA-Factory-LMM-RGCL/tree/a88f610e9fa46d1ef1669c5dbc39ee9008f95c21).
 - [18/02/2025] 🔥🔥🔥Our new work, LMM-RGCL, has been released. We further extend RGCL for large multimodal models. Check it out here: [https://arxiv.org/abs/2502.13061](https://arxiv.org/abs/2502.13061). We will shortly release checkpoints and code for LMM-RGCL.
 - [29/10/2024] 🔥🔥Initial Release of the code base.
 - [10/08/2024] 🔥Our paper appears at ACL2024 Main.
