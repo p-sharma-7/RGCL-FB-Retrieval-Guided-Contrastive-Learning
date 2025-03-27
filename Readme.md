@@ -95,6 +95,7 @@ If you experience stuck in training, it might be due to the `faiss` installation
 
 
 # (WIP) LMM-RGCL 
+We have now released the code for the stage 1 training of the LMM-RGCL. The released version is based on a newer [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) version than we used in the paper to support Qwen2.5-vl training. We will shortly release the checkpoints and data. 
 
 # Citation
 If our work helped your research, please kindly cite our paper
