@@ -102,7 +102,8 @@ For data, we have uploaded the original datasets and data format after conversio
 
 ## Setup Environment 
 ```
-cd LLAMA-FACTORY
+git clone https://github.com/JingbiaoMei/RGCL.git
+cd RGCL/LLAMA-FACTORY
 conda create -n llamafact python=3.10
 conda activate llamafact
 pip install -e ".[torch,metrics,deepspeed,liger-kernel,bitsandbytes,qwen]"
