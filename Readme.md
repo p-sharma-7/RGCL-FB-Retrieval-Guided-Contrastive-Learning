@@ -10,10 +10,10 @@
 
 This is the official repo for the paper: 
 - Improving Hateful Meme Detection through Retrieval-Guided Contrastive Learning (CLIP-RGCL)
-- Improved Fine-Tuning of Large Multimodal Models for Hateful Meme Detection (LMM-RGCL)
+- Robust Adaptation of Large Multimodal Models for Retrieval Augmented Hateful Meme Detection (RA-HMD)
 ----
 - The link to the RGCL paper is [https://aclanthology.org/2024.acl-long.291.pdf](https://aclanthology.org/2024.acl-long.291.pdf).
-- The link to the LMM-RGCL paper is [https://arxiv.org/abs/2502.13061](https://arxiv.org/abs/2502.13061).
+- The link to the RA-HMD paper is [https://arxiv.org/abs/2502.13061](https://arxiv.org/abs/2502.13061).
 - The link to the project page is [here](https://rgclmm.github.io/).
 
 
@@ -89,8 +89,8 @@ If you experience being stuck in training, it might be due to the `faiss` instal
 
 
 
-# (WIP) LMM-RGCL 
-We have now released the code for the stage 1 training of the LMM-RGCL. The released version is based on a newer [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) version than we used in the paper to support Qwen2.5-vl training. We will shortly release the checkpoints. 
+# (WIP) RA-HMD
+We have now released the code for the stage 1 training of the RA-HMD. The released version is based on a newer [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) version than we used in the paper to support Qwen2.5-vl training. We will shortly release the checkpoints. 
 
 For data, we have uploaded the original datasets and data format after conversion for LLaMA-Factory here: [https://huggingface.co/datasets/Jingbiao/LMM_RGCL](https://huggingface.co/datasets/Jingbiao/LMM_RGCL). 
 
@@ -131,16 +131,16 @@ If our work helped your research, please kindly cite our paper
     pages = "5333--5347"
 }
 
-@article{LMMRGCL2025Mei,
-    title={Improved Fine-Tuning of Large Multimodal Models for Hateful Meme Detection},
-    url={http://arxiv.org/abs/2502.13061},
-    DOI={10.48550/arXiv.2502.13061},
-    note={arXiv:2502.13061 [cs]},
-    number={arXiv:2502.13061},
-    publisher={arXiv},
-    author={Mei, Jingbiao and Chen, Jinghong and Yang, Guangyu and Lin, Weizhe and Byrne, Bill},
-    year={2025},
-    month=feb }
+ @article{Mei_Chen_Yang_Lin_Byrne_2025, title={Robust Adaptation of Large Multimodal Models for Retrieval Augmented Hateful Meme Detection},
+          url={http://arxiv.org/abs/2502.13061},
+          DOI={10.48550/arXiv.2502.13061},
+          note={arXiv:2502.13061 [cs]},
+          number={arXiv:2502.13061},
+          publisher={arXiv},
+          author={Mei, Jingbiao and Chen, Jinghong and Yang, Guangyu and Lin, Weizhe and Byrne, Bill},
+          year={2025},
+          month=may }
+
 
 
 ```
