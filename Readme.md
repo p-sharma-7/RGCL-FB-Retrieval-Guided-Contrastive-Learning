@@ -92,7 +92,7 @@ If you experience being stuck in training, it might be due to the `faiss` instal
 # (WIP) RA-HMD
 We have now released the code for the stage 1 training of the RA-HMD. The released version is based on a newer [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) version than we used in the paper to support Qwen2.5-vl training. We will shortly release the checkpoints. 
 
-For data, we have uploaded the original datasets and data format after conversion for LLaMA-Factory here: [https://huggingface.co/datasets/Jingbiao/LMM_RGCL](https://huggingface.co/datasets/Jingbiao/LMM_RGCL). 
+For data, we have uploaded the original datasets and data format after conversion for LLaMA-Factory here: [https://huggingface.co/datasets/Jingbiao/RA-HMD](https://huggingface.co/datasets/Jingbiao/RA-HMD). 
 
 ## Setup Environment 
 ```
@@ -131,7 +131,7 @@ If our work helped your research, please kindly cite our paper
     pages = "5333--5347"
 }
 
- @article{Mei_Chen_Yang_Lin_Byrne_2025, title={Robust Adaptation of Large Multimodal Models for Retrieval Augmented Hateful Meme Detection},
+ @article{RAHMD2025Mei, title={Robust Adaptation of Large Multimodal Models for Retrieval Augmented Hateful Meme Detection},
           url={http://arxiv.org/abs/2502.13061},
           DOI={10.48550/arXiv.2502.13061},
           note={arXiv:2502.13061 [cs]},
