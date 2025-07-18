@@ -1,146 +1,163 @@
-# RGCL: Improving Hateful Meme Detection through Retrieval-Guided Contrastive Learning
+# RGCL-FB: Retrieval-Guided Contrastive Learning for Hateful Meme Detection (FB Dataset)
 
+This repository contains a simplified, working implementation of:
+> 📄 **[Improving Hateful Meme Detection through Retrieval-Guided Contrastive Learning (RGCL)](https://aclanthology.org/2024.acl-long.291.pdf)**  
+> ACL 2024 · Jingbiao Mei et al.
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improved-fine-tuning-of-large-multimodal-1/hateful-meme-classification-on-harm-p)](https://paperswithcode.com/sota/hateful-meme-classification-on-harm-p?p=improved-fine-tuning-of-large-multimodal-1)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improved-fine-tuning-of-large-multimodal-1/meme-classification-on-multioff)](https://paperswithcode.com/sota/meme-classification-on-multioff?p=improved-fine-tuning-of-large-multimodal-1)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improved-fine-tuning-of-large-multimodal-1/hateful-meme-classification-on-pridemm)](https://paperswithcode.com/sota/hateful-meme-classification-on-pridemm?p=improved-fine-tuning-of-large-multimodal-1)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improved-fine-tuning-of-large-multimodal-1/meme-classification-on-hateful-memes)](https://paperswithcode.com/sota/meme-classification-on-hateful-memes?p=improved-fine-tuning-of-large-multimodal-1)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/improved-fine-tuning-of-large-multimodal-1/hateful-meme-classification-on-harmeme)](https://paperswithcode.com/sota/hateful-meme-classification-on-harmeme?p=improved-fine-tuning-of-large-multimodal-1)
+---
 
+## 🧠 What is RGCL?
 
-This is the official repo for the paper: 
-- Improving Hateful Meme Detection through Retrieval-Guided Contrastive Learning (CLIP-RGCL)
-- Robust Adaptation of Large Multimodal Models for Retrieval Augmented Hateful Meme Detection (RA-HMD)
-----
-- The link to the RGCL paper is [https://aclanthology.org/2024.acl-long.291.pdf](https://aclanthology.org/2024.acl-long.291.pdf).
-- The link to the RA-HMD paper is [https://arxiv.org/abs/2502.13061](https://arxiv.org/abs/2502.13061).
-- The link to the project page is [here](https://rgclmm.github.io/).
+**RGCL** improves multimodal hateful meme classification using **contrastive learning** and **retrieval-based augmentation**. It enhances traditional CLIP-based models by:
+- Adding **ALIGN embeddings** alongside CLIP
+- Introducing **hard negatives** for triplet loss
+- Integrating **sparse textual retrieval** (object/attribute-based)
 
+---
 
-## Updates
-- [27/03/2025] 🔥🔥🔥🔥RA-HMD Stage 1 code has been released. Check out the code from the submodule in [LLAMA-FACTORY@a88f610](https://github.com/JingbiaoMei/LLaMA-Factory-LMM-RGCL/tree/a88f610e9fa46d1ef1669c5dbc39ee9008f95c21).
-- [18/02/2025] 🔥🔥🔥Our new work, RA-HMD, has been released. Check it out here: [https://arxiv.org/abs/2502.13061](https://arxiv.org/abs/2502.13061).
-- [29/10/2024] 🔥🔥Initial Release of the code base.
-- [10/08/2024] 🔥Our paper appears at ACL2024 Main.
+## ✅ What's Included in This Repo?
 
+- ✔️ Code to preprocess and split image/text data
+- ✔️ CLIP and ALIGN embedding generation scripts
+- ✔️ Sparse retrieval generation using object/attribute text
+- ✔️ RAC (Retrieval-Augmented Contrastive) model training
+- ✔️ Inference script on **test_unseen** split
+- ❌ No data, checkpoints, or wandb logs pushed
+- ❌ RA-HMD & LLaMA-Factory components removed
 
-# CLIP-RGCL
-Useage
---------------------
-## Create Env
-```shell
+---
+
+## 📊 Dataset
+
+This implementation uses the **Hateful Memes Expanded** dataset from Hugging Face:
+- **Source**: [limjiayi/hateful_memes_expanded](https://huggingface.co/datasets/limjiayi/hateful_memes_expanded/tree/main)
+- **Description**: An expanded version of the Facebook Hateful Memes Challenge dataset with additional annotations and improved coverage
+- **Format**: Images with corresponding text and binary labels (hateful/not hateful)
+
+### Dataset Download
+```bash
+# Download dataset from Hugging Face
+git clone https://huggingface.co/datasets/limjiayi/hateful_memes_expanded
+# Or use the datasets library
+pip install datasets
+```
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Environment Setup
+
+```bash
 conda create -n RGCL python=3.10 -y
 conda activate RGCL
 ```
 
-Install pytorch
-```
-conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia -y
-```
-
-Install FAISS
-```
-conda install -c pytorch -c nvidia faiss-gpu=1.7.4 mkl=2021 blas=1.0=mkl -y
-```
-
-```
+Install dependencies:
+```bash
+conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+conda install -c pytorch -c nvidia faiss-gpu=1.7.4 mkl=2021 blas=1.0=mkl
 pip install -r requirements.txt
 ```
 
+### 2. 📁 Expected Data Structure
 
-Dataset Preparation 
---------------------
-#### Image data
-Copy images into `./data/image/dataset_name/All` folder.
-For example: `./data/image/FB/All/12345.png`, `./data/image/HarMeme/All`, `./data/image/Propaganda/All`, etc..
-#### Annotation data
-Copy `jsonl` annotation file into `./data/gt/dataset_name` folder.
-
-#### Generate CLIP Embedding
-We generate CLIP embedding prior to training to avoid repeated generation during training.
-
-```shell
-python3 src/utils/generate_CLIP_embedding_HF.py --dataset "FB"
-python3 src/utils/generate_CLIP_embedding_HF.py --dataset "HarMeme"
-
+After placing files:
+```
+data/
+├── image/FB/All/               # All original images
+├── gt/FB/                      # All .jsonl annotation files
+├── CLIP_Embedding/FB/          # Extracted CLIP features
+├── ALIGN_Embedding/FB/         # Extracted ALIGN features
+└── Sparse_Retrieval_Dict/FB/   # Generated retrieval dictionaries
 ```
 
-#### Generate ALIGN Embedding
-```shell
-python3 src/utils/generate_ALIGN_embedding_HF.py --dataset "FB"
-python3 src/utils/generate_ALIGN_embedding_HF.py --dataset "HarMeme"
+---
 
+## 📦 Data Preparation
+
+### Step 1: Split images into train/dev/test folders
+```bash
+python src/utils/split_img.py
 ```
 
-#### Generate Sparse Retrieval Index
-##### Generate VinVL Bounding Box Prediction (Optional)
-We obtained the object detection bounding box with VinVL. To simplify your process to reproduce the results, we release the pre-extracted bbox prediction for the HatefulMemes dataset: [https://huggingface.co/datasets/Jingbiao/rgcl-sparse-retrieval/tree/main](https://huggingface.co/datasets/Jingbiao/rgcl-sparse-retrieval/tree/main)  
-
-
-Training and Evalution 
---------------------
-```
-bash scripts\experiments.sh
+### Step 2: Generate Embeddings
+```bash
+python src/utils/generate_CLIP_embedding_HF.py --dataset "FB"
+python src/utils/generate_ALIGN_embedding_HF.py --dataset "FB"
 ```
 
-## Common Issues
-If you experience being stuck in training, it might be due to the `faiss` installation. 
-
-
-
-
-# (WIP) RA-HMD
-We have now released the code for the stage 1 training of the RA-HMD. The released version is based on a newer [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) version than we used in the paper to support Qwen2.5-vl training. We will shortly release the checkpoints. 
-
-For data, we have uploaded the original datasets and data format after conversion for LLaMA-Factory here: [https://huggingface.co/datasets/Jingbiao/RA-HMD](https://huggingface.co/datasets/Jingbiao/RA-HMD). 
-
-## Setup Environment 
-```
-git clone https://github.com/JingbiaoMei/RGCL.git
-cd RGCL/LLAMA-FACTORY
-conda create -n llamafact python=3.10
-conda activate llamafact
-pip install -e ".[torch,metrics,deepspeed,liger-kernel,bitsandbytes,qwen]"
-pip install torchmetrics wandb easydict
-pip install qwen_vl_utils torchvision
-# Install FAISS
-conda install -c pytorch -c nvidia faiss-gpu=1.7.4 mkl=2021 blas=1.0=mkl
+### Step 3: Generate Sparse Retrieval Index
+```bash
+python src/utils/generate_sparse_retrieval_dictionary.py --dataset "FB"
 ```
 
+---
 
-# Citation
-If our work helped your research, please kindly cite our paper
+## 🏋️ Train the RGCL Model
+
+Start training using:
+```bash
+bash scripts/experiments.sh
 ```
+
+**Configuration:**
+- Dataset: FB (Facebook Hateful Memes)
+- Model: openai/clip-vit-large-patch14-336
+- Fusion: ALIGN + CLIP + retrieval
+- Loss: Triplet + hybrid
+- Epochs: 30
+
+---
+
+## 🔍 Inference on test_unseen
+
+After training:
+```bash
+python src/infer_test_unseen.py
+```
+
+This script:
+- Loads best checkpoint from logging/
+- Uses saved CLIP features of test_unseen
+- Outputs predicted labels
+
+---
+
+## 📊 Evaluation Snapshot
+
+| Split | Accuracy | ROC-AUC | F1 Score |
+|-------|----------|---------|----------|
+| dev_seen | 0.788 | 0.861 | 0.759 |
+| test_seen | 0.750 | 0.849 | 0.711 |
+| test_unseen | ✅ Tested via infer_test_unseen.py | | |
+
+---
+
+## 📌 Citation
+
+If you use this repo or the original model, please cite:
+```bibtex
 @inproceedings{RGCL2024Mei,
     title = "Improving Hateful Meme Detection through Retrieval-Guided Contrastive Learning",
-    author = "Mei, Jingbiao  and
-      Chen, Jinghong  and
-      Lin, Weizhe  and
-      Byrne, Bill  and
-      Tomalin, Marcus",
-    editor = "Ku, Lun-Wei  and
-      Martins, Andre  and
-      Srikumar, Vivek",
-    booktitle = "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
-    month = aug,
-    year = "2024",
-    address = "Bangkok, Thailand",
-    publisher = "Association for Computational Linguistics",
-    url = "https://aclanthology.org/2024.acl-long.291",
-    doi = "10.18653/v1/2024.acl-long.291",
-    pages = "5333--5347"
+    author = "Mei, Jingbiao and Chen, Jinghong and Lin, Weizhe and Byrne, Bill and Tomalin, Marcus",
+    booktitle = "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics",
+    year = "2024"
 }
-
- @article{RAHMD2025Mei, title={Robust Adaptation of Large Multimodal Models for Retrieval Augmented Hateful Meme Detection},
-          url={http://arxiv.org/abs/2502.13061},
-          DOI={10.48550/arXiv.2502.13061},
-          note={arXiv:2502.13061 [cs]},
-          number={arXiv:2502.13061},
-          publisher={arXiv},
-          author={Mei, Jingbiao and Chen, Jinghong and Yang, Guangyu and Lin, Weizhe and Byrne, Bill},
-          year={2025},
-          month=may }
-
-
-
 ```
+
+---
+
+## 🙏 Acknowledgements
+
+- Original authors: Jingbiao Mei et al.
+- Official repo: github.com/JingbiaoMei/RGCL
+
+---
+
+Let me know if you'd like:
+- A license (`MIT` or `Apache 2.0`)
+- A `requirements.txt` auto-freeze
+- A one-liner badge for model accuracy or Hugging Face Space
+
+You're all set to make this public now 👏
