@@ -154,10 +154,3 @@ If you use this repo or the original model, please cite:
 - Official repo: github.com/JingbiaoMei/RGCL
 
 ---
-
-Let me know if you'd like:
-- A license (`MIT` or `Apache 2.0`)
-- A `requirements.txt` auto-freeze
-- A one-liner badge for model accuracy or Hugging Face Space
-
-You're all set to make this public now 👏
